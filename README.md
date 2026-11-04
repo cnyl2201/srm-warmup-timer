@@ -1,4 +1,12 @@
-# SRM Warmup Timer · GitHub Pages 网页版
+# SRM Warmup Timer
+
+## 在线使用（打开网页，不是 GitHub 代码页面）
+
+**[点击打开 SRM Warmup Timer 计时器](https://cnyl2201.github.io/srm-warmup-timer/)**
+
+手机建议用 Chrome 或 Safari 直接打开上述地址。GitHub 仓库的 Code 页面只展示源代码，不是计时器。如果页面没有更新，尝试刷新或使用无痕窗口。手机锁屏可能影响提示音，比赛现场请保留备用闹钟。
+
+---
 
 SRM Warmup Timer 是一个无需后端的 HTML/CSS/JavaScript 网页应用，可直接发布到 GitHub Pages。网页包含中文倒计时提醒、多组热身计划、模板保存/重命名/读取、比赛时间倒计时和发车前 5 分钟全屏红色提醒。
 
