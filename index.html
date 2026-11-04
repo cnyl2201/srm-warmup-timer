@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b1117">
+<meta name="description" content="SRM Warmup Timer — 骑行比赛热身计时、中文语音提示、比赛倒计时与个人热身计划保存。">
+<title>SRM Warmup Timer · 骑行赛前热身</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1117;--panel:#161f29;--card:#1d2935;--line:#354554;--lime:#c5f661;--white:#f5f8fb;--muted:#97a8b7;--red:#ff454f;--blue:#8dc7ee}
+*{box-sizing:border-box}html{font-size:16px}body{margin:0;background:var(--bg);color:var(--white);font-family:system-ui,-apple-system,"Noto Sans SC", "Microsoft Yahei",sans-serif;-webkit-tap-highlight-color:transparent}button,input,select,textarea{font:inherit}button{cursor:pointer}button:disabled{opacity:.4;cursor:not-allowed}input,select,textarea{color:var(--white);background:#0a1119;border:1px solid #566574;border-radius:12px;outline-color:var(--lime)}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
+.wrap{max-width:600px;margin:auto;padding:22px 16px calc(102px + env(safe-area-inset-bottom))}.eyebrow{color:var(--lime);letter-spacing:.18em;font-weight:850;font-size:12px}.page-title{font-size:29px;letter-spacing:-.04em;margin:7px 0 4px}.muted{color:var(--muted)}.sub{font-size:13px;color:var(--muted);line-height:1.55}.card{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:20px;margin-top:16px}.card h2{font-size:17px;margin:0 0 14px}.chip{font-weight:800;color:var(--lime);font-size:13px}.topline{display:flex;align-items:center;justify-content:space-between;gap:10px}.wall{font-variant-numeric:tabular-nums;color:var(--muted);font-weight:750;font-size:15px}.duoclock{display:grid;grid-template-columns:1fr 1fr;gap:10px}.smallclock{border:1px solid #2c3b4b;background:#101923;padding:12px 9px;border-radius:14px;min-width:0}.smallclock span{font-size:12px;color:var(--muted)}.smallclock strong{font-size:clamp(22px,6vw,32px);display:block;margin-top:6px;letter-spacing:-.04em;font-variant-numeric:tabular-nums;white-space:nowrap}.smallclock.leave strong{color:var(--lime)}.status{font-size:15px;font-weight:750;margin-top:16px;line-height:1.55;min-height:23px}.status.red{color:#ff7379}.hint{font-size:12px;color:var(--muted);line-height:1.5;margin-top:5px;min-height:16px}.timer-card{padding:24px 19px 20px}.group-title{color:var(--lime);font-weight:800;font-size:17px}.group-note{font-size:16px;text-align:center;margin:13px 0 0;font-weight:650;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.45}.highline{color:var(--lime);font-size:13px;font-weight:750;text-align:center;margin-top:9px}.bigclock{text-align:center;font-size:clamp(69px,19vw,107px);font-weight:900;letter-spacing:-.075em;font-variant-numeric:tabular-nums;margin:9px 0 3px;line-height:1.15}.range{width:100%;accent-color:var(--lime);height:36px;touch-action:none;cursor:pointer}.range-info{text-align:center;color:var(--muted);font-size:12px}.interval-status{text-align:center;font-size:18px;font-weight:750;margin:15px 0 2px}.speech-cue{text-align:center;font-size:14px;color:var(--lime);font-weight:800;min-height:19px;margin-top:9px}.btn{color:var(--white);border:1px solid transparent;background:#293948;border-radius:13px;min-height:51px;font-weight:800;padding:11px 14px}.btn.main{background:var(--lime);color:#111719;font-size:21px}.btn.secondary{border-color:#4b5e70}.btn.danger{background:#47232b;color:#ffbec2;border-color:#833d4b}.btn.slim{font-size:14px;min-height:44px;padding:9px 13px}.controls{display:grid;grid-template-columns:1.15fr 1fr;gap:9px;margin-top:12px}.resetwarm{width:100%;font-size:20px;min-height:57px;margin-top:11px;border-color:#668094}.section-heading{font-size:20px;font-weight:850;margin:25px 0 11px}.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.field{display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--muted);font-weight:700}.field input,.field select{height:49px;padding:9px 10px;width:100%;min-width:0}.field.wide{grid-column:1 / -1}.timecombo{display:flex;align-items:center;gap:5px}.timecombo select{min-width:0;flex:1;font-size:20px;font-weight:750;text-align:center;padding:5px 2px}.timecombo b{font-size:21px;color:var(--muted)}.vol-head{display:flex;justify-content:space-between;font-weight:750}.vol-head output{color:var(--lime)}.text-note{font-size:12px;line-height:1.7;color:var(--muted);margin-top:13px}.stepper{display:flex;align-items:center;gap:8px}.stepper button{font-size:23px;width:44px;height:44px;min-height:44px;padding:0}.stepper strong{min-width:25px;text-align:center;font-size:19px}.rowline{display:flex;align-items:center;justify-content:space-between;gap:10px}.full{width:100%}.group-row{width:100%;background:var(--panel);border:1px solid var(--line);padding:14px;display:flex;gap:10px;align-items:center;min-height:74px;border-radius:13px;color:var(--white);text-align:left;margin-top:8px}.group-row .n{color:var(--muted);font-size:17px;font-weight:850;min-width:35px}.group-row .info{flex:1;min-width:0}.group-row .info strong{display:block;font-size:15px}.group-row .info small{display:block;color:var(--muted);margin-top:4px;font-size:12px;white-space:pre-wrap;overflow-wrap:anywhere}.group-row .duration{color:var(--lime);font-size:19px;font-weight:850;font-variant-numeric:tabular-nums}.total{text-align:right;color:var(--muted);font-size:13px;margin-top:12px}.plan-row{background:#111a23;border:1px solid #334452;border-radius:13px;padding:14px;margin-top:9px}.plan-name{font-size:16px;font-weight:850;overflow-wrap:anywhere}.plan-meta{font-size:12px;color:var(--muted);margin-top:5px}.plan-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}.plan-actions button{min-height:41px;padding:8px 13px;flex:1}.empty{color:var(--muted);font-size:13px;padding:13px 0}.nav{position:fixed;bottom:0;left:0;right:0;z-index:30;display:flex;gap:10px;justify-content:center;background:#101923;border-top:1px solid var(--line);padding:9px 12px calc(10px + env(safe-area-inset-bottom))}.nav button{border:none;flex:1;max-width:300px;background:var(--card);color:var(--white);font-size:16px;font-weight:800;border-radius:12px;min-height:49px}.nav button.active{background:var(--lime);color:#0b1117}[hidden]{display:none!important}
+.dialog{border:1px solid #566979;border-radius:22px;background:#192632;color:var(--white);padding:22px;width:min(92vw,410px);max-height:88dvh;overflow:auto}.dialog::backdrop{background:#000d}.dialog h2{font-size:21px;margin:0 0 18px}.dialog p{color:var(--muted);font-size:13px;line-height:1.55}.dialog label{font-size:13px;font-weight:800;display:block;margin:13px 0 7px}.dialog input,.dialog textarea{width:100%;padding:11px;font-size:17px}.dialog textarea{min-height:85px;resize:vertical;font-size:15px}.dialog .inline{display:flex;align-items:center;gap:9px}.dialog .inline input{width:85px;font-size:23px;text-align:center}.dialog .check{display:flex;align-items:center;gap:10px;justify-content:space-between;margin-top:17px}.dialog .check input{width:23px;height:23px;accent-color:var(--lime)}.dialog-actions{display:flex;gap:9px;margin-top:21px}.dialog-actions .btn{flex:1}.toast{position:fixed;bottom:89px;left:50%;transform:translateX(-50%);background:#364757;color:white;max-width:calc(100vw - 32px);width:max-content;border-radius:12px;padding:12px 16px;z-index:70;font-size:14px;box-shadow:0 6px 18px #0006}
+/* Critical race-start takeover: deliberately only timer, instruction, reset. */
+.critical-screen{position:fixed;inset:0;z-index:100;background:radial-gradient(ellipse at 50% 38%,#741d28 0%,#3e121a 46%,#190c12 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px 12px calc(24px + env(safe-area-inset-bottom));gap:clamp(18px,5dvh,45px)}.critical-clock{font-size:clamp(72px,18.3vw,164px);font-family:"Arial Narrow",system-ui,sans-serif;letter-spacing:-.07em;font-weight:950;color:#fff;font-variant-numeric:tabular-nums;white-space:nowrap;line-height:1;text-shadow:0 5px 18px #16020790}.critical-prompt{font-size:clamp(39px,11.5vw,76px);font-weight:950;color:#ff5762;line-height:1.12;letter-spacing:-.055em;text-shadow:0 2px 10px #12060b}.critical-reset{width:min(85vw,330px);border:2px solid #ff8991;border-radius:20px;min-height:72px;background:#ed454f;color:#fff;font-size:27px;font-weight:900}.critical-reset:active{transform:scale(.98)}
+@media(max-width:370px){.wrap{padding-inline:12px}.smallclock strong{font-size:21px}.bigclock{font-size:69px}.critical-clock{font-size:18.1vw}.controls .btn{font-size:14px}.controls .main{font-size:18px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<section id="dashboardPage">
+<div class="eyebrow">SRM WARMUP TIMER</div><h1 class="page-title">SRM Warmup Timer</h1><div class="sub">比赛仪表盘 · 独立比赛倒计时 · 自动连续热身</div>
+<section class="card" aria-label="比赛倒计时">
+ <div class="topline"><span class="chip">比赛时间</span><span class="wall" id="wallTime">--:--:--</span></div>
+ <div class="duoclock" style="margin-top:15px"><div class="smallclock"><span>距离比赛开始</span><strong id="raceLeft">--:--:--</strong></div><div class="smallclock leave"><span>距离去起点</span><strong id="leaveLeft">--:--:--</strong></div></div>
+ <div class="status" id="raceStatus">在设置页填写比赛时间</div><div class="hint" id="raceHint">最后五分钟将切换为全屏红色提醒</div>
+</section>
+<div class="section-heading">当前热身组</div>
+<section class="card timer-card">
+ <div class="group-title" id="groupNumber">第 1 / 4 组</div><div class="group-note" id="currentNote" hidden></div><div class="highline" id="highFlag" hidden>⚡ 高强度组 · 中文倒计时播报</div>
+ <div class="bigclock" id="intervalClock">03:00</div><input id="seek" class="range" type="range" min="0" max="1000" value="0" aria-label="拖动改变当前热身组进度"><div class="range-info" id="seekInfo">拖动滑块调整本组进度</div>
+ <div class="interval-status" id="intervalStatus">准备就绪</div><div class="speech-cue" id="speechCue" aria-live="off"></div>
+</section>
+<div class="controls"><button class="btn main" id="startPause">▶ 开始</button><button class="btn secondary" id="skip">跳过并开始下一组 »</button></div>
+<button class="btn secondary resetwarm" id="resetWarmup">↻ 重置热身计时</button>
+<p class="text-note">热身结束或点击跳过会自动启动下一组。比赛倒计时按照手机时钟独立运行。</p>
+</section>
+<section id="settingsPage" hidden>
+<div class="eyebrow">SRM WARMUP TIMER · SETTINGS</div><h1 class="page-title">设置</h1><div class="sub">比赛时间 · 热身计划 · 中文语音提示</div>
+<div class="section-heading">比赛时间与去起点</div>
+<section class="card" style="margin-top:8px"><div class="field-grid">
+<label class="field">比赛日期<input id="raceDate" type="date"></label>
+<label class="field">比赛开始时间<span class="timecombo"><select id="raceHour" aria-label="比赛开始小时"></select><b>:</b><select id="raceMinute" aria-label="比赛开始分钟"></select></span></label>
+<label class="field wide">提前多少分钟去起点<input id="leadMinutes" type="number" inputmode="numeric" min="0" max="240" step="1" value="15"></label>
+</div><div class="text-note">比赛开始前最后五分钟：自动切换为仅显示倒计时、马上去起点和重置按钮的全屏警告。</div><button class="btn secondary full" style="margin-top:14px" id="previewWarning">预览最后五分钟提示（15 秒）</button></section>
+<div class="section-heading">中文提示音</div><section class="card" style="margin-top:8px"><div class="vol-head"><span>提醒音量</span><output id="volumeDisplay">85%</output></div><input class="range" id="volume" type="range" min="0" max="100" step="1" value="85" aria-label="中文提醒音量"><button class="btn secondary full" id="testSpeech">🔊 测试中文语音</button><div class="text-note" id="speechStatus" role="status">仅保留倒计时语音播报，不使用麦克风，也不支持语音开启。</div></section>
+<div class="section-heading">热身计划设置</div><div class="rowline card" style="margin-top:8px"><strong>总组数</strong><div class="stepper"><button class="btn" id="removeGroup" aria-label="减少组数">−</button><strong id="groupCount">4</strong><button class="btn" id="addGroup" aria-label="增加组数">+</button></div></div>
+<button class="btn secondary full" style="margin-top:11px" id="applyDuration">统一设置全部组时长</button><div id="groupRows"></div><div class="total" id="totalTime"></div>
+<div class="section-heading">我的热身计划</div><section class="card" style="margin-top:8px"><button class="btn main full" id="savePlan">＋ 保存当前计划并命名</button><div class="text-note">保存组数、每组时长、备注、高强度设置、提前去起点分钟数及音量。比赛日期和发车时刻不会保存在模板中。</div><div id="savedPlans"></div><div class="text-note">计划保存在当前浏览器本地。清除浏览器数据或更换手机可能丢失，可导出备份。</div><div class="rowline" style="gap:9px;margin-top:11px"><button class="btn secondary slim" style="flex:1" id="exportPlans">导出计划备份</button><button class="btn secondary slim" style="flex:1" id="importPlans">导入计划备份</button><input id="importInput" type="file" accept=".json,application/json" hidden></div></section>
+<p class="text-note">高强度组在剩余 60、30、20、10—1 秒时中文播报；去起点之前保留原有语音提醒。浏览器处于后台或锁屏状态时提醒可能延迟，请在比赛当天另设手机闹钟。</p>
+</section>
+</main>
+<nav class="nav" aria-label="底部导航"><button id="navRace" class="active" aria-selected="true">◉ 比赛</button><button id="navSettings" aria-selected="false">⚙ 设置</button></nav>
+<dialog id="editDialog" class="dialog"><h2 id="editTitle">编辑热身组</h2><div class="inline"><input id="editMinutes" type="number" min="0" max="120" inputmode="numeric"><span>分</span><input id="editSeconds" type="number" min="0" max="59" inputmode="numeric"><span>秒</span></div><div id="extraGroup"><label for="editNote">本组备注（功率、踏频等）</label><textarea id="editNote" maxlength="150" placeholder="例如：250 W / 100 rpm"></textarea><label class="check">⚡ 作为高强度组 <input id="editHigh" type="checkbox"></label></div><div class="dialog-actions"><button class="btn" id="cancelEdit">取消</button><button class="btn main" id="confirmEdit">保存</button></div></dialog>
+<dialog id="nameDialog" class="dialog"><h2 id="nameTitle">保存当前热身计划</h2><label for="planName">计划名称</label><input id="planName" type="text" maxlength="50" placeholder="例如：场地赛赛前热身 30 分钟"><p id="nameHint">使用名称区分不同比赛或热身方式。</p><div class="dialog-actions"><button class="btn" id="cancelName">取消</button><button class="btn main" id="confirmName">保存</button></div></dialog>
+<div id="criticalScreen" class="critical-screen" role="alert" aria-label="马上去起点" hidden><div class="critical-clock" id="criticalClock">05:00</div><div class="critical-prompt">马上去起点</div><button id="resetCritical" class="critical-reset">↻ 重置</button></div>
+<div class="toast" id="toast" role="status" hidden></div>
+<script>
+(()=>{'use strict';
+const $=id=>document.getElementById(id),PAD=n=>String(n).padStart(2,'0'),clone=o=>JSON.parse(JSON.stringify(o));
+const DB={current:'cycling_warmup_plan_v2',race:'cycling_warmup_race_v3',volume:'cycling_warmup_volume_v4',presets:'cycling_warmup_presets_v5'};
+const DEFAULT=()=>Array.from({length:4},()=>({seconds:180,note:'',high:false}));
+const goodGroup=g=>g&&Number.isInteger(g.seconds)&&g.seconds>=1&&g.seconds<=7200&&typeof g.note!=='object';
+const normalizeGroups=a=>Array.isArray(a)&&a.length>=1&&a.length<=20&&a.every(goodGroup)?a.map(g=>({seconds:g.seconds,note:String(g.note||'').slice(0,150),high:!!g.high})):null;
+function stored(key,fall){try{return JSON.parse(localStorage.getItem(key))??fall}catch{return fall}}
+function store(key,value){try{localStorage.setItem(key,JSON.stringify(value));return true}catch{toast('浏览器拒绝本地保存，请检查存储权限');return false}}
+let groups=normalizeGroups(stored(DB.current,null))||DEFAULT();
+let race=stored(DB.race,{start:'',lead:15});if(!race||typeof race.start!=='string'||!Number.isInteger(race.lead)||race.lead<0||race.lead>240)race={start:'',lead:15};
+let volume=Number(localStorage.getItem(DB.volume));if(!Number.isFinite(volume)||localStorage.getItem(DB.volume)===null)volume=85;volume=Math.max(0,Math.min(100,volume));
+let presets=stored(DB.presets,[]);if(!Array.isArray(presets))presets=[];presets=presets.filter(p=>p&&typeof p.id==='string'&&typeof p.name==='string'&&normalizeGroups(p.groups)).slice(0,80);
+let stage='ready',idx=0,leftMs=groups[0].seconds*1000,endAt=0,previousIntervalMs=leftMs,editIndex=0,seekDragging=false,dialogAction='save',renameId=null;
+let voiceContext=null,voiceUnlocked=false,toastTimer=null,wakeLock=null;
+let priorLeave=null,priorRace=null,warningLatched=false,previewDeadline=null,previousCriticalSecond=null,criticalShown=false;
+const WARM_MARKERS=[60,30,20,10,9,8,7,6,5,4,3,2,1],LEAVE_MARKERS=[300,240,180,120,60,30,20,10,9,8,7,6,5,4,3,2,1];
+const ZH=['','一','二','三','四','五','六','七','八','九','十'];
+const mmss=sec=>`${PAD(Math.floor(sec/60))}:${PAD(sec%60)}`;
+const hms=ms=>{let s=Math.max(0,Math.ceil(ms/1000));return `${PAD(Math.floor(s/3600))}:${PAD(Math.floor(s/60)%60)}:${PAD(s%60)}`};
+function toast(s){let t=$('toast');t.textContent=s;t.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.hidden=true,3200)}
+function audioUnlock(){try{voiceContext=voiceContext||new(window.AudioContext||window.webkitAudioContext)();if(voiceContext.state==='suspended')voiceContext.resume();voiceUnlocked=true}catch{}}
+function beep(freq=890,dur=.3){if(volume<=0)return;try{if(!voiceContext)return;let t=voiceContext.currentTime,osc=voiceContext.createOscillator(),gain=voiceContext.createGain();osc.type='sine';osc.frequency.value=freq;gain.gain.setValueAtTime(.001,t);gain.gain.exponentialRampToValueAtTime(Math.max(.001,.20*volume/100),t+.02);gain.gain.setValueAtTime(Math.max(.001,.20*volume/100),t+Math.max(.04,dur-.07));gain.gain.exponentialRampToValueAtTime(.001,t+dur);osc.connect(gain);gain.connect(voiceContext.destination);osc.start(t);osc.stop(t+dur+.01)}catch{}}
+function cancelSpeech(){try{speechSynthesis.cancel()}catch{}}
+function speak(msg,rate=1.07){if(volume<=0)return false;if(!('speechSynthesis'in window)||!('SpeechSynthesisUtterance'in window))return false;try{cancelSpeech();const u=new SpeechSynthesisUtterance(msg);u.lang='zh-CN';u.rate=rate;u.volume=volume/100;speechSynthesis.speak(u);return true}catch{return false}}
+function cue(){beep(1000,.65);try{navigator.vibrate?.([170,90,170])}catch{}}
+function persistCurrent(){store(DB.current,groups)}
+function switchPage(page){let settings=page==='settings';$('dashboardPage').hidden=settings;$('settingsPage').hidden=!settings;$('navRace').classList.toggle('active',!settings);$('navSettings').classList.toggle('active',settings);$('navRace').setAttribute('aria-selected',String(!settings));$('navSettings').setAttribute('aria-selected',String(settings));window.scrollTo(0,0)}
+$('navRace').onclick=()=>switchPage('race');$('navSettings').onclick=()=>switchPage('settings');
+function updateRaceInputs(){
+ $('raceDate').value=race.start.split('T')[0]||'';
+ const time=(race.start.split('T')[1]||'14:00').split(':');$('raceHour').value=time[0];$('raceMinute').value=time[1];$('leadMinutes').value=race.lead;
+}
+for(let h=0;h<24;h++){let o=document.createElement('option');o.value=PAD(h);o.textContent=PAD(h);$('raceHour').append(o)}
+for(let m=0;m<60;m++){let o=document.createElement('option');o.value=PAD(m);o.textContent=PAD(m);$('raceMinute').append(o)}
+updateRaceInputs();
+function updateRace(){
+ let lead=Number($('leadMinutes').value);if(!Number.isInteger(lead)||lead<0||lead>240){toast('提前去起点时间须为 0—240 分钟');$('leadMinutes').value=race.lead;return}
+ const date=$('raceDate').value,hour=$('raceHour').value,minute=$('raceMinute').value,start=date?`${date}T${hour}:${minute}`:'';
+ if(start&&!Number.isFinite(new Date(start).getTime())){toast('比赛日期时间无效');return}
+ race={start,lead};priorLeave=null;priorRace=null;warningLatched=false;previousCriticalSecond=null;store(DB.race,race);tickRace();
+}
+for(let id of ['raceDate','raceHour','raceMinute','leadMinutes'])$(id).addEventListener('change',updateRace);
+function tickRace(){
+ const now=Date.now(),d=new Date(now);$('wallTime').textContent=`${PAD(d.getHours())}:${PAD(d.getMinutes())}:${PAD(d.getSeconds())}`;
+ if(previewDeadline!==null){renderCritical(previewDeadline-now,true);return}
+ if(!race.start){$('raceLeft').textContent='--:--:--';$('leaveLeft').textContent='--:--:--';$('raceStatus').textContent='尚未设置比赛开始时间';$('raceStatus').classList.remove('red');$('raceHint').textContent='请在设置页选择比赛日期和开始时刻';priorLeave=null;priorRace=null;return}
+ const target=new Date(race.start).getTime();if(!Number.isFinite(target))return;
+ const raceMs=target-now,leaveMs=target-race.lead*60000-now;
+ $('raceLeft').textContent=hms(raceMs);$('leaveLeft').textContent=hms(leaveMs);
+ const speakCrossed=(before,after,markers,prefix)=>{
+  if(before===null||before<=0)return;
+  const crossed=markers.filter(v=>before>v*1000&&after<=v*1000);
+  if(!crossed.length)return;
+  const s=Math.min(...crossed),words=s>=60?`${prefix}还有${s/60}分钟`:s>10?`${prefix}还有${s}秒`:ZH[s];
+  if(!speak(words,1.19))beep(1200,.17);
+ };
+ if(priorLeave!==null&&priorLeave>0){if(leaveMs<=0){cue();speak('现在出发，前往起点');}else speakCrossed(priorLeave,leaveMs,LEAVE_MARKERS,'距离去起点')}
+ if(priorRace!==null&&priorRace>0&&raceMs<=0){cue();speak('比赛开始时间已到')}
+ priorLeave=leaveMs;priorRace=raceMs;
+ const urgentRace=raceMs>0&&raceMs<=300000,urgentLeave=leaveMs>0&&leaveMs<=300000;
+ $('raceStatus').classList.toggle('red',urgentRace||leaveMs<=0||urgentLeave);
+ $('raceStatus').textContent=raceMs<=0?'比赛时间已到':leaveMs<=0?'⚠ 应立即去起点':urgentRace?'⚠ 距离发车不足 5 分钟':urgentLeave?'⚠ 距离去起点不足 5 分钟':'比赛计时正常运行';
+ $('raceHint').textContent=raceMs<=0?'热身与比赛计时相互独立':urgentRace?'即将显示全屏发车警告':leaveMs<=0?'去起点时间已到':'请留意提前去起点倒计时';
+ if(urgentRace)warningLatched=true;
+ if(warningLatched)renderCritical(raceMs,false);
+}
+function renderCritical(ms,isPreview){
+ // The three only children remain: countdown, prompt, reset button.
+ $('criticalScreen').hidden=false;
+ if(!criticalShown){criticalShown=true;document.body.style.overflow='hidden';acquireWakeLock();cue();speak(isPreview?'紧急提醒预览，马上去起点':'比赛即将开始，马上去起点');}
+ const sec=Math.max(0,Math.ceil(ms/1000));$('criticalClock').textContent=mmss(sec);
+ if(previousCriticalSecond!==sec){
+  if(sec<=10&&sec>=1&&(isPreview||ms>0)){if(!speak(ZH[sec],1.2))beep(1250,.1)}
+  if(sec===0&&previousCriticalSecond!==null){cue();speak('马上去起点')}
+  previousCriticalSecond=sec;
+ }
+}
+function closeCritical(){warningLatched=false;previewDeadline=null;previousCriticalSecond=null;criticalShown=false;$('criticalScreen').hidden=true;document.body.style.overflow=''}
+$('resetCritical').onclick=()=>{
+ // In real mode, this resets the race reminder, not the saved warm-up plans.
+ const preview=previewDeadline!==null;
+ closeCritical();if(!preview){race.start='';store(DB.race,race);updateRaceInputs();priorLeave=null;priorRace=null;toast('比赛时间已重置；热身计划和已保存模板不受影响');switchPage('settings')}
+ else toast('已结束紧急提醒预览');
+};
+$('previewWarning').onclick=()=>{audioUnlock();previewDeadline=Date.now()+15000;previousCriticalSecond=null;renderCritical(15000,true)};
+function warmMarker(before,after){if(!groups[idx]?.high||before<=0)return;const crossed=WARM_MARKERS.filter(s=>before>s*1000&&after<=s*1000);if(!crossed.length)return;const s=Math.min(...crossed),words=s===60?'剩余一分钟':s===30?'三十秒':s===20?'二十秒':ZH[s];$('speechCue').textContent=s>=20?`中文提示：${words}`:`最后 ${s} 秒`;if(!speak(words,1.17))beep(1100,.15)}
+function begin(){if(stage!=='ready')return;audioUnlock();stage='running';leftMs=Math.max(1,leftMs);previousIntervalMs=leftMs;endAt=performance.now()+leftMs;render()}
+function pause(){if(stage!=='running')return;leftMs=Math.max(0,endAt-performance.now());previousIntervalMs=leftMs;stage='paused';render()}
+function resume(){if(stage!=='paused')return;audioUnlock();stage='running';endAt=performance.now()+leftMs;previousIntervalMs=leftMs;render()}
+function resetWarm(){idx=0;stage='ready';leftMs=groups[0].seconds*1000;previousIntervalMs=leftMs;$('speechCue').textContent='';cancelSpeech();render()}
+function nextGroup(anchor=performance.now()){
+ idx++;$('speechCue').textContent='';cancelSpeech();if(idx>=groups.length){stage='done';leftMs=0;previousIntervalMs=0}else{stage='running';leftMs=groups[idx].seconds*1000;previousIntervalMs=leftMs;endAt=anchor+leftMs}render()
+}
+$('startPause').onclick=()=>{if(stage==='ready')begin();else if(stage==='running')pause();else if(stage==='paused')resume();else resetWarm()};
+$('skip').onclick=()=>{if(stage==='done')return;audioUnlock();nextGroup()};
+$('resetWarmup').onclick=()=>{resetWarm();toast('热身已重置到第一组；比赛倒计时不受影响')};
+function seekInfo(rest){let total=groups[idx]?.seconds*1000||1,p=stage==='done'?1000:Math.max(0,Math.min(1000,Math.round((total-rest)/total*1000)));if(!seekDragging){$('seek').value=p;$('seekInfo').textContent=stage==='done'?'所有热身组已完成':`本组进度 ${(p/10).toFixed(1)}% · 可拖动调整`}}
+function seekPreview(){if(stage==='done')return;let p=Number($('seek').value),rest=groups[idx].seconds*1000*(1-p/1000);$('intervalClock').textContent=mmss(Math.ceil(rest/1000));$('seekInfo').textContent=`已拖至 ${(p/10).toFixed(1)}% · 剩余 ${mmss(Math.ceil(rest/1000))}`}
+function seekCommit(){if(stage==='done')return;let p=Number($('seek').value);seekDragging=false;if(p>=1000){nextGroup();cue();return}leftMs=groups[idx].seconds*1000*(1-p/1000);previousIntervalMs=leftMs;if(stage==='running')endAt=performance.now()+leftMs;render()}
+$('seek').addEventListener('input',()=>{seekDragging=true;seekPreview()});$('seek').addEventListener('change',seekCommit);
+function render(){
+ const g=groups[idx],rest=stage==='running'?Math.max(0,endAt-performance.now()):leftMs;
+ if(!seekDragging)$('intervalClock').textContent=mmss(Math.ceil(rest/1000));
+ $('groupNumber').textContent=stage==='done'?`全部 ${groups.length} 组已完成`:`第 ${idx+1} / ${groups.length} 组`;
+ $('currentNote').hidden=stage==='done'||!g?.note;$('currentNote').textContent=g?.note||'';
+ $('highFlag').hidden=stage==='done'||!g?.high;
+ $('intervalStatus').textContent=({ready:'准备就绪 · 点击开始',running:'正在热身',paused:'已暂停',done:'热身完成！'})[stage];
+ $('startPause').textContent=({ready:'▶ 开始热身',running:'Ⅱ 暂停',paused:'▶ 继续',done:'↻ 再来一次'})[stage];
+ $('skip').disabled=stage==='done';$('seek').disabled=stage==='done';$('groupCount').textContent=groups.length;
+ $('addGroup').disabled=groups.length>=20||stage!=='ready'||idx!==0;$('removeGroup').disabled=groups.length<=1||stage!=='ready'||idx!==0;
+ $('applyDuration').disabled=stage!=='ready'||idx!==0;
+ seekInfo(rest);drawGroups();
+}
+function drawGroups(){const root=$('groupRows');root.replaceChildren();let sum=0;groups.forEach((g,i)=>{
+ sum+=g.seconds;const b=document.createElement('button');b.type='button';b.className='group-row';const n=document.createElement('span');n.className='n';n.textContent=PAD(i+1);const info=document.createElement('span');info.className='info';const title=document.createElement('strong');title.textContent=`第 ${i+1} 组${g.high?' · ⚡ 高强度':''}`;const note=document.createElement('small');note.textContent=g.note||'点击设置时长、备注与强度';info.append(title,note);const dur=document.createElement('span');dur.className='duration';dur.textContent=mmss(g.seconds);b.append(n,info,dur);b.onclick=()=>editGroup(i);root.append(b)});$('totalTime').textContent=`计划合计 ${Math.floor(sum/60)} 分 ${sum%60} 秒`}
+function canEdit(){if(stage==='ready'&&idx===0)return true;toast('请先重置热身计时，再编辑组别或载入计划');return false}
+function editGroup(i){if(!canEdit())return;editIndex=i;const g=groups[i<0?0:i];$('editTitle').textContent=i<0?'统一设置全部组时长':`编辑第 ${i+1} 组`;$('editMinutes').value=Math.floor(g.seconds/60);$('editSeconds').value=g.seconds%60;$('extraGroup').hidden=i<0;if(i>=0){$('editNote').value=g.note;$('editHigh').checked=g.high}$('editDialog').showModal()}
+$('cancelEdit').onclick=()=>$('editDialog').close();$('applyDuration').onclick=()=>editGroup(-1);
+$('confirmEdit').onclick=()=>{const m=Number($('editMinutes').value),s=Number($('editSeconds').value),sec=m*60+s;if(!Number.isInteger(m)||!Number.isInteger(s)||m<0||s<0||s>59||sec<1||sec>7200){toast('每组时长须为 1 秒到 120 分钟');return}if(editIndex<0)groups.forEach(g=>g.seconds=sec);else{groups[editIndex].seconds=sec;groups[editIndex].note=$('editNote').value.trim().slice(0,150);groups[editIndex].high=$('editHigh').checked}leftMs=groups[0].seconds*1000;previousIntervalMs=leftMs;persistCurrent();render();$('editDialog').close()};
+$('addGroup').onclick=()=>{if(!canEdit()||groups.length>=20)return;groups.push({seconds:groups.at(-1).seconds,note:'',high:false});persistCurrent();render()};
+$('removeGroup').onclick=()=>{if(!canEdit()||groups.length<=1)return;groups.pop();persistCurrent();render()};
+$('volume').value=volume;$('volumeDisplay').textContent=`${volume}%`;
+$('volume').oninput=e=>{volume=Number(e.target.value);$('volumeDisplay').textContent=`${volume}%`;localStorage.setItem(DB.volume,String(volume))};
+$('testSpeech').onclick=()=>{audioUnlock();beep(880,.12);const ok=speak('中文语音测试，比赛即将开始，请准备前往起点');$('speechStatus').textContent=ok?'已发送中文语音播报；如无声音，请检查浏览器中文语音和系统媒体音量':'当前浏览器没有中文文字转语音能力，已尝试播放提示音'};
+function planStamp(p){let date=p.updated?new Date(p.updated):null;return date&&Number.isFinite(date.getTime())?date.toLocaleString('zh-CN',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'}):'已保存'}
+function drawSaved(){const root=$('savedPlans');root.replaceChildren();if(!presets.length){let el=document.createElement('p');el.className='empty';el.textContent='暂时没有已保存的计划';root.append(el);return}
+ presets.forEach(p=>{const block=document.createElement('div');block.className='plan-row';const title=document.createElement('div');title.className='plan-name';title.textContent=p.name;const meta=document.createElement('div');meta.className='plan-meta';meta.textContent=`${p.groups.length} 组 · 总时长 ${Math.floor(p.groups.reduce((a,g)=>a+g.seconds,0)/60)} 分 · ${planStamp(p)}`;const acts=document.createElement('div');acts.className='plan-actions';const load=document.createElement('button');load.className='btn slim main';load.textContent='读取计划';load.onclick=()=>loadSaved(p.id);const rename=document.createElement('button');rename.className='btn slim secondary';rename.textContent='重命名';rename.onclick=()=>openPlanName('rename',p.id);const del=document.createElement('button');del.className='btn slim danger';del.textContent='删除';del.onclick=()=>{if(del.dataset.confirm==='yes'){presets=presets.filter(x=>x.id!==p.id);store(DB.presets,presets);drawSaved();toast('计划已删除')}else{del.dataset.confirm='yes';del.textContent='确认删除';setTimeout(()=>{if(del.isConnected){del.dataset.confirm='';del.textContent='删除'}},3500)}};acts.append(load,rename,del);block.append(title,meta,acts);root.append(block)})}
+function openPlanName(mode,id){dialogAction=mode;renameId=id;let p=presets.find(x=>x.id===id);$('nameTitle').textContent=mode==='rename'?'重命名已保存计划':'保存当前热身计划';$('planName').value=mode==='rename'?(p?.name||''):(p?.name||'');$('nameHint').textContent=mode==='rename'?'只修改名称，不改变计划内容。':'保存当前组别设置，可以以后直接读取；同名会提示修改。';$('nameDialog').showModal();$('planName').focus()}
+$('savePlan').onclick=()=>openPlanName('save',null);$('cancelName').onclick=()=>$('nameDialog').close();
+$('confirmName').onclick=()=>{let name=$('planName').value.trim();if(!name){toast('请填写计划名称');$('planName').focus();return}if(name.length>50){toast('计划名称不能超过 50 字');return}
+ const dup=presets.find(p=>p.name.toLocaleLowerCase()===name.toLocaleLowerCase()&&p.id!==renameId);if(dup){toast('已有同名计划，请换个名称');return}
+ if(dialogAction==='rename'){let p=presets.find(x=>x.id===renameId);if(!p){toast('计划不存在');return}p.name=name;p.updated=Date.now()}
+ else {presets.unshift({id:(window.crypto?.randomUUID?.()||('plan-'+Date.now()+'-'+Math.random().toString(36).slice(2))),name,groups:clone(groups),lead:race.lead,volume,updated:Date.now()})}
+ if(store(DB.presets,presets)){drawSaved();$('nameDialog').close();toast(dialogAction==='rename'?'计划已重命名':'热身计划已保存')}
+};
+function loadSaved(id){const p=presets.find(x=>x.id===id);if(!p)return;let normalized=normalizeGroups(p.groups);if(!normalized){toast('该计划的组别内容无效');return}
+ groups=clone(normalized);race.lead=Number.isInteger(p.lead)?Math.max(0,Math.min(240,p.lead)):race.lead;volume=Number.isFinite(p.volume)?Math.max(0,Math.min(100,p.volume)):volume;$('volume').value=volume;$('volumeDisplay').textContent=`${volume}%`;localStorage.setItem(DB.volume,String(volume));store(DB.race,race);updateRaceInputs();resetWarm();persistCurrent();switchPage('race');toast(`已载入：${p.name}`)}
+$('exportPlans').onclick=()=>{let payload={type:'cycling-warmup-presets',version:5,exportedAt:new Date().toISOString(),plans:presets};try{const b=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),url=URL.createObjectURL(b),a=document.createElement('a');a.href=url;a.download='cycling-warmup-plans.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),3000);toast('备份文件已导出')}catch{toast('导出失败，请检查浏览器下载权限')}};
+$('importPlans').onclick=()=>$('importInput').click();
+$('importInput').addEventListener('change',async e=>{const f=e.target.files?.[0];if(!f)return;try{const data=JSON.parse(await f.text());if(data.type!=='cycling-warmup-presets'||!Array.isArray(data.plans))throw Error('格式不匹配');let added=0;for(const item of data.plans){let g=normalizeGroups(item.groups);if(!g||typeof item.name!=='string'||!item.name.trim()||presets.length>=80)continue;let p={id:(window.crypto?.randomUUID?.()||'plan-'+Date.now()+'-'+Math.random()),name:item.name.trim().slice(0,50),groups:g,lead:Number.isInteger(item.lead)?Math.max(0,Math.min(240,item.lead)):15,volume:Number.isFinite(item.volume)?Math.max(0,Math.min(100,item.volume)):85,updated:Date.now()};let original=p.name;for(let n=2;presets.some(x=>x.name.toLowerCase()===p.name.toLowerCase());n++)p.name=`${original.slice(0,43)} (${n})`;presets.push(p);added++}store(DB.presets,presets);drawSaved();toast(`已导入 ${added} 个计划`)}catch{toast('导入失败：需要本软件导出的 JSON 文件')}finally{e.target.value=''}});
+function tick(){
+ if(stage==='running'&&!seekDragging){const now=performance.now();let passed=0;while(stage==='running'&&now>=endAt&&passed<21){const anchor=endAt;nextGroup(anchor);passed++}if(passed)cue();else{const next=Math.max(0,endAt-now);warmMarker(previousIntervalMs,next);previousIntervalMs=next;leftMs=next}}
+ const rest=stage==='running'?Math.max(0,endAt-performance.now()):leftMs;
+ if(!seekDragging)$('intervalClock').textContent=mmss(Math.ceil(rest/1000));seekInfo(rest);tickRace();
+}
+async function acquireWakeLock(){if(!('wakeLock'in navigator)||document.visibilityState!=='visible')return;try{wakeLock=await navigator.wakeLock.request('screen')}catch{}}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){acquireWakeLock();tick()} });
+document.addEventListener('pointerdown',()=>{audioUnlock();acquireWakeLock()},{once:true});
+document.addEventListener('touchstart',()=>{audioUnlock();acquireWakeLock()},{once:true});
+render();drawSaved();tickRace();setInterval(tick,100);
+})();
+</script>
+</body>
+</html>
